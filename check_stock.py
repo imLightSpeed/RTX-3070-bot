@@ -1,5 +1,6 @@
 from mail import mail
 import os
+import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import logging
@@ -23,6 +24,7 @@ class best_buy:
         driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
         try:
             driver.get(url)
+            time.sleep(5)
             is_instock =  driver.find_element_by_class_name('add-to-cart-button').text
             driver.close()
             driver.quit()
@@ -49,6 +51,7 @@ class newegg:
         driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
         try:
             driver.get(url)
+            time.sleep(5)
             is_instock =  driver.find_element_by_class_name('product-buy').text
             driver.close()
             driver.quit()
