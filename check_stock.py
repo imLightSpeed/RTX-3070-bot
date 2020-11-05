@@ -4,6 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import logging
 from selenium.webdriver.remote.remote_connection import LOGGER
+from selenium.common.exceptions import NoSuchElementException
 
 class best_buy:
     def check_stock(self,item, url):
@@ -29,7 +30,7 @@ class best_buy:
             if is_instock == 'Add to Cart':
                 x = mail()
                 x.send_mail('Best Buy',item)
-        except KeyError:
+        except NoSuchElementException:
             driver.quit()
 class newegg:
     def check_stock(self, item, url):
@@ -55,5 +56,5 @@ class newegg:
             if is_instock == 'ADD TO CART':
                 x = mail()
                 x.send_mail('NEWEGG',item)
-        except KeyError:
+        except NoSuchElementException:
              driver.quit()
