@@ -33,7 +33,7 @@ class best_buy:
                 x = mail()
                 x.send_mail('Best Buy',item)
         except NoSuchElementException:
-            print(NoSuchElementException)
+            print(NoSuchElementException, item)
             driver.quit()
 class newegg:
     def check_stock(self, item, url):
@@ -61,5 +61,5 @@ class newegg:
                 x = mail()
                 x.send_mail('NEWEGG',item)
         except NoSuchElementException:
-            print(NoSuchElementException)
+            print(NoSuchElementException, item)
             driver.quit()
