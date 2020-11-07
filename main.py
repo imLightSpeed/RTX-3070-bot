@@ -1,4 +1,4 @@
-from check_stock import best_buy, newegg
+from check_stock import stock,main
 import time
 
 card_urls_bb = { '3070 Founders Edition':'https://www.bestbuy.com/site/nvidia-geforce-rtx-3070-8gb-gddr6-pci-express-4-0-graphics-card-dark-platinum-and-black/6429442.p?skuId=6429442',
@@ -16,12 +16,7 @@ card_urls_ne = {
                 'MSI TRIO':'https://www.newegg.com/msi-geforce-rtx-3070-rtx-3070-gaming-x-trio/p/N82E16814137603?Description=RTX%203070&cm_re=RTX_3070-_-14-137-603-_-Product',
                 'EVGA ULTRA':'https://www.newegg.com/evga-geforce-rtx-3070-08g-p5-3767-kr/p/N82E16814487532?Description=RTX%203070&cm_re=RTX_3070-_-14-487-532-_-Product',
                 }
-while True:            
-     for key, value in card_urls_bb.items():
-          x = best_buy()
-          x.check_stock(key,value)
-
-     for key, value in card_urls_ne.items():
-          x = newegg()
-          x.check_stock(key,value)
-     time.sleep(5)
+if __name__ == '__main__':
+     while True:
+          main(card_urls_bb, card_urls_ne)
+          time.sleep(30)

@@ -6,60 +6,65 @@ from selenium.webdriver.chrome.options import Options
 import logging
 from selenium.webdriver.remote.remote_connection import LOGGER
 from selenium.common.exceptions import NoSuchElementException
-
-class best_buy:
-    def check_stock(self,item, url):
-        self.item  = item
+import threading
+from threading import Thread
+class stock(Thread):
+    def __init__(self, item, url):
+        Thread.__init__(self)
+        self.item = item
+        self.url =url
+        
+    def best_buy(self):
+        self.html_class  = 'add-to-cart-button'
+        self.store_name = 'Best Buy'
+        self.cart = 'Add to Cart'
+    def newegg(self):
+        self.html_class  = 'product-buy'
+        self.store_name = 'Newegg'
+        self.cart = 'ADD TO CART'
+        
+    def run(self):
+        url = self.url
+        item = self.item
         LOGGER.setLevel(logging.WARNING)
         options = Options()
         options.headless = True
         #Bellow is for heroku
-        chrome_options = webdriver.ChromeOptions()
-        chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-        chrome_options.add_argument("--headless")
-        chrome_options.add_argument("--disable-dev-shm-usage")
-        chrome_options.add_argument("--no-sandbox")
-        # PATH = "chromedriver.exe"
-        # driver = webdriver.Chrome(PATH, options=options)
-        driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+        # chrome_options = webdriver.ChromeOptions()
+        # chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+        # chrome_options.add_argument("--headless")
+        # chrome_options.add_argument("--disable-dev-shm-usage")
+        # chrome_options.add_argument("--no-sandbox")
+        PATH = "chromedriver.exe"
+        driver = webdriver.Chrome(PATH, options=options)
+        # driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
         try:
-            driver.get(url)
-            time.sleep(5)
-            is_instock =  driver.find_element_by_class_name('add-to-cart-button').text
+            driver.get(self.url)
+            time.sleep(2.5)
+            is_instock =  driver.find_element_by_class_name(self.html_class).text
             driver.close()
             driver.quit()
-            print(is_instock, item)
-            if is_instock == 'Add to Cart':
+            print(is_instock, self.item)
+            if is_instock == self.cart:
                 x = mail()
-                x.send_mail('Best Buy',item)
+                x.send_mail(self.store_name,self.item)
         except NoSuchElementException:
-            print(NoSuchElementException, item)
+            print('NoSuchElementException', self.item)
             driver.quit()
-class newegg:
-    def check_stock(self, item, url):
-        self.item  = item
-        LOGGER.setLevel(logging.WARNING)
-        options = Options()
-        options.headless = True
-        #Bellow is for heroku
-        chrome_options = webdriver.ChromeOptions()
-        chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-        chrome_options.add_argument("--headless")
-        chrome_options.add_argument("--disable-dev-shm-usage")
-        chrome_options.add_argument("--no-sandbox")
-        # PATH = "chromedriver.exe"
-        # driver = webdriver.Chrome(PATH, options=options)
-        driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
-        try:
-            driver.get(url)
-            time.sleep(5)
-            is_instock =  driver.find_element_by_class_name('product-buy').text
-            driver.close()
-            driver.quit()
-            print(is_instock,item)
-            if is_instock == 'ADD TO CART':
-                x = mail()
-                x.send_mail('NEWEGG',item)
-        except NoSuchElementException:
-            print(NoSuchElementException, item)
-            driver.quit()
+def main(bb, ne):
+    threads = []
+    for key,value in bb.items():
+        t1 = stock(key,value)
+        t1.best_buy()
+        t1.start()
+        threads.append(t1)
+    for i in threads:
+        i.join()
+    threads = []
+    for key,value in ne.items():
+        t1 = stock(key,value)
+        t1.newegg()
+        t1.start()
+        threads.append(t1)
+    for i in threads:
+        i.join()

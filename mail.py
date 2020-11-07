@@ -11,7 +11,7 @@ class mail:
         msg['Subject'] = 'RTX 3070 IN STOCK'
         msg['From'] = EMAIL_USER
         msg['To'] = EMAIL_USER
-        msg.set_content(f'GET OVER TO {self.store}, {self.card} IS IN STOCK NOW')
+        msg.set_content(f'Get over to {self.store}, {self.card} is in stock now')
 
         with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
             smtp.login(EMAIL_USER, EMAIL_PASS)
