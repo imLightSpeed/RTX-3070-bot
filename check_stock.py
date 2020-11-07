@@ -30,11 +30,13 @@ class stock(Thread):
         # options.headless = True
         # PATH = "chromedriver.exe"
         # driver = webdriver.Chrome(PATH, options=options)
-        chrome_options = webdriver.ChromeOptions()
-        chrome_options.add_argument('--headless')
+        GOOGLE_CHROME_BIN = os.environ.get('GOOGLE_CHROME_BIN')
+        CHROMEDRIVER_PATH = os.environ.get('CHROMEDRIVER_PATH')
+        chrome_options = Options()
+        chrome_options.binary_location = GOOGLE_CHROME_BIN
+        chrome_options.add_argument('--disable-gpu')
         chrome_options.add_argument('--no-sandbox')
-        chrome_options.add_argument('--disable-dev-shm-usage')
-        driver = webdriver.Chrome(chrome_options=chrome_options)
+        driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=chrome_options)
         try:
             driver.get(self.url)
             time.sleep(6)
