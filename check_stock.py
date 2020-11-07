@@ -30,17 +30,16 @@ class stock(Thread):
         options = Options()
         options.headless = True
         #Bellow is for heroku
-        chrome_options = webdriver.ChromeOptions()
-        chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-        chrome_options.add_argument("--headless")
-        chrome_options.add_argument("--disable-dev-shm-usage")
-        chrome_options.add_argument("--no-sandbox")
+        options = webdriver.ChromeOptions()
+        options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--no-sandbox")
         # PATH = "chromedriver.exe"
         # driver = webdriver.Chrome(PATH, options=options)
-        driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+        driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=options)
         try:
             driver.get(self.url)
-            time.sleep(2.5)
+            time.sleep(6)
             is_instock =  driver.find_element_by_class_name(self.html_class).text
             driver.close()
             driver.quit()
