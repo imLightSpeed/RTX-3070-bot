@@ -26,17 +26,15 @@ class stock(Thread):
     def run(self):
         url = self.url
         item = self.item
-        LOGGER.setLevel(logging.WARNING)
-        options = Options()
-        options.headless = True
-        #Bellow is for heroku
-        options = webdriver.ChromeOptions()
-        options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-        options.add_argument("--disable-dev-shm-usage")
-        options.add_argument("--no-sandbox")
+        # options = Options()
+        # options.headless = True
         # PATH = "chromedriver.exe"
         # driver = webdriver.Chrome(PATH, options=options)
-        driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=options)
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument('--disable-dev-shm-usage')
+        driver = webdriver.Chrome(chrome_options=chrome_options)
         try:
             driver.get(self.url)
             time.sleep(6)
