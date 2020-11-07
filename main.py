@@ -19,4 +19,4 @@ card_urls_ne = {
 if __name__ == '__main__':
      while True:
           main(card_urls_bb, card_urls_ne)
-          time.sleep(30)
+          time.sleep(120)

@@ -30,14 +30,14 @@ class stock(Thread):
         options = Options()
         options.headless = True
         #Bellow is for heroku
-        # chrome_options = webdriver.ChromeOptions()
-        # chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-        # chrome_options.add_argument("--headless")
-        # chrome_options.add_argument("--disable-dev-shm-usage")
-        # chrome_options.add_argument("--no-sandbox")
-        PATH = "chromedriver.exe"
-        driver = webdriver.Chrome(PATH, options=options)
-        # driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+        chrome_options.add_argument("--no-sandbox")
+        # PATH = "chromedriver.exe"
+        # driver = webdriver.Chrome(PATH, options=options)
+        driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
         try:
             driver.get(self.url)
             time.sleep(2.5)
